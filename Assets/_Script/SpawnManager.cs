@@ -7,33 +7,57 @@ using Random = UnityEngine.Random;
 public class SpawnManager : MonoBehaviour
 {
     [SerializeField] private GameObject[] enemy;
-     private float SmallEnemy1 = 4.65f ;
-    private float SmallEnemy2 = 9.5f ;
-   
+     private float MinPostion = 4.26f ;
+    private float maxPostion = 9.5f ;
     [SerializeField] private float flt_PostionOfX;
     [SerializeField] private int persantageOfSpwnSmallEnemy;
-
-
     [SerializeField] private float flt_SpwnRate;
     private float flt_CurrentTime;
+
+    [Header("Coin")]
+    [SerializeField] private GameObject coin;
+    private float flt_CurrentCoinTime;
+    [SerializeField] private float flt_MaxCoinSpawnTime;
+    [SerializeField]private float probabiltyOfSpawnCoin;
     private void Update() {
 
         if (!GameManager.instance.isplayerLive) {
             return;
         }
-        if (flt_SpwnRate>0.4f ) {
+        EnemyTimeHandling();
+        flt_CurrentCoinTime += Time.deltaTime;
+        if (flt_CurrentCoinTime>flt_MaxCoinSpawnTime) {
+
+            flt_CurrentCoinTime = 0;
+
+            SpwnCoin();
+           
+        }
+       
+    }
+
+    private void SpwnCoin() {
+
+        int Index = Random.Range(0, 100);
+        if (Index <= probabiltyOfSpawnCoin) {
+            Vector3 GetSpawnPostion = new Vector3(flt_PostionOfX, Random.Range(MinPostion, maxPostion), 0);
+            Instantiate(coin, GetSpawnPostion, transform.rotation);
+        }
+    }
+
+    private void EnemyTimeHandling() {
+        if (flt_SpwnRate > 0.4f) {
             flt_SpwnRate = 3 - GameManager.instance.currentLevelIndex * 0.08f;
         }
         else {
             flt_SpwnRate = 0.4f;
         }
-       
+
         flt_CurrentTime += Time.deltaTime;
-        if (flt_CurrentTime> flt_SpwnRate) {
+        if (flt_CurrentTime > flt_SpwnRate) {
             SpawnEnemy();
             flt_CurrentTime = 0;
         }
-       
     }
 
     private void SpawnEnemy() {
@@ -49,7 +73,7 @@ public class SpawnManager : MonoBehaviour
     private void InstantiateEnemy(int i) {
         Vector3 spawnPostion;
       
-             spawnPostion = GetSpawnPostion(SmallEnemy1,SmallEnemy2);
+             spawnPostion = GetSpawnPostion(MinPostion,maxPostion);
         Instantiate(enemy[i], spawnPostion, enemy[i].transform.rotation);
 
 

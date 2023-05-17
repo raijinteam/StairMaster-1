@@ -5,13 +5,17 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class ObstacleMovement : MonoBehaviour {
+    [SerializeField] private Sprite[] all_Sprite;
     [SerializeField] private float flt_Speed;
     [SerializeField] private float flt_Angle;
     [SerializeField] private Transform body;
-   
+    [SerializeField] private SpriteRenderer spriteRenderer;
+
 
     private void Start() {
-       
+
+        //spriteRenderer.sprite = all_Sprite[Random.Range(0, all_Sprite.Length)];
+        spriteRenderer.sprite = all_Sprite[4];
         flt_Speed = 6 + GameManager.instance.currentLevelIndex*0.02f;
         flt_Angle = GameManager.instance.flt_StepAngle;
     }
@@ -20,7 +24,7 @@ public class ObstacleMovement : MonoBehaviour {
             return;
         }
         EnemyMotion();
-        body.transform.Rotate(0, 0, 5);
+        body.transform.Rotate(0, 0, 1.5f);
     }
 
     private void EnemyMotion() {

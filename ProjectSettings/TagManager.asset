@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Enemy
   - Boundry
+  - Coin
   layers:
   - Default
   - TransparentFX
@@ -40,9 +41,12 @@ TagManager:
   - 
   - 
   m_SortingLayers:
-  - name: Obstacles
-    uniqueID: 3565060297
+  - name: BackGround
+    uniqueID: 1237941039
     locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Obstacles
+    uniqueID: 3565060297
     locked: 0

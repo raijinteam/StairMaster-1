@@ -7,7 +7,7 @@ public class Playermovement : MonoBehaviour
 {
     public PlayerBody myBody;
 
-   // [SerializeField] private GameObject body;
+   [SerializeField] private GameObject[] all_body;
    
     [SerializeField]private bool isTopPostion;
     [SerializeField] private  float jumpHeight;
@@ -26,22 +26,36 @@ public class Playermovement : MonoBehaviour
     private int jumpCount = 0;
     private string id_Jump = "IsJump";
     private string id_Running = "IsRunning";
+    private bool isFilp = false;
+    private bool isSetPostion = false;
+    private Vector3 storePostion;
     
 
     private void Start() {
        
         isTopPostion = false;
-       GameObject current =  Instantiate(myBody.gameObject, transform.position, transform.rotation);
+       GameObject current =  Instantiate(all_body[DataManager.instance.PlayerIndex], 
+           transform.position, transform.rotation);
+
         myBody = current.GetComponent<PlayerBody>();
         myBody.target = transform;
       
+    }
+
+    public void Reset() {
+        if (isTopPostion) {
+            myBody.transform.localEulerAngles = new Vector3(0, 0, -180);
+        }
+        else {
+            myBody.transform.localEulerAngles = new Vector3(0, 0, 0);
+        }
     }
 
 
 
     private void Update() {
         if (!GameManager.instance.isplayerLive) {
-            myBody.animator.enabled = false;
+          //  myBody.animator.enabled = false;
             return;
            
         }
@@ -53,11 +67,14 @@ public class Playermovement : MonoBehaviour
 
             JumpDownWord();
         }
-      
-        //MotionInput();
+
+       
+       
         
 
     }
+
+    
 
     private void Jump() {
         bool isGround;
@@ -77,20 +94,29 @@ public class Playermovement : MonoBehaviour
 
             Vector2 postion = Physics2D.ClosestPoint(transform.position, colliders[0]) +
                 Vector2.up * heigthforDownToCenter;
-            transform.position = new Vector3(transform.position.x, postion.y, transform.position.z);
+            if (colliders.Length<=1) {
+                transform.position = new Vector3(transform.position.x, postion.y, transform.position.z);
+                storePostion = transform.position;
+            }
+            else {
+                transform.position = storePostion;
+            }
+           
             velocity = 0;
             isGround = true;
             isJump = false;
             jumpCount = 0;
-            myBody.animator.SetTrigger(id_Running);
-           
-            
+            isFilp = false;
+            //  myBody.animator.SetTrigger(id_Running);
+          
+
+
 
         }
         else {
 
             if (isJump) {
-                myBody.animator.SetTrigger(id_Jump);
+              //  myBody.animator.SetTrigger(id_Jump);
               
             }
             isGround = false;
@@ -98,29 +124,46 @@ public class Playermovement : MonoBehaviour
 
         }
 
-        //if (Input.GetMouseButtonDown(0) && isGround && Input.mousePosition.x < Screen.width / 2f) {
-        //    velocity = MathF.Sqrt(jumpHeight * -2 * (Physics2D.gravity.y * GravityScale));
-        //    myBody.JumpRotation(isTopPostion);
-        //    isJump = true;
-        //}
-
-        if (Input.GetMouseButtonDown(0) && isGround) {
+        if (Input.GetMouseButtonDown(0) && isGround && Input.mousePosition.x > Screen.width / 2f) {
             velocity = MathF.Sqrt(jumpHeight * -2 * (Physics2D.gravity.y * GravityScale));
             myBody.JumpRotation(isTopPostion);
             isJump = true;
-            jumpCount += 1;
+            AudioManager.instance.PlayJumpSFX();
         }
-        else if (Input.GetMouseButtonDown(0) && jumpCount == 1) {
-            jumpCount = 2;
+        if (Input.GetMouseButtonDown(0) && !isFilp && Input.mousePosition.x < Screen.width / 2f) {
+            AudioManager.instance.PlayPathChangeSFX();
+            isFilp = true;
             MotionInput();
-            
         }
+
+        //if (Input.GetMouseButtonDown(0) && isGround) {
+        //    velocity = MathF.Sqrt(jumpHeight * -2 * (Physics2D.gravity.y * GravityScale));
+        //    myBody.JumpRotation(isTopPostion);
+        //    isJump = true;
+        //    jumpCount += 1;
+        //AudioManager.instance.PlayPathChangeSFX();
+        //}
+        //else if (Input.GetMouseButtonDown(0) && jumpCount == 1) {
+        //    jumpCount = 2;
+        //    MotionInput();
+
+        //}
+
+
+
 
         transform.Translate(Vector3.up * velocity *Time.deltaTime);
        
     }
+
+    private IEnumerator fixpopstion(Vector3 position) {
+        yield return new WaitForSeconds(0.5f);
+        transform.position = position;
+    }
+
     private void JumpDownWord() {
 
+        
         bool isGround = true;
         if (!isJump) {
             velocity -= -Physics2D.gravity.y * GravityScale * Time.deltaTime;
@@ -136,42 +179,58 @@ public class Playermovement : MonoBehaviour
 
             Vector2 postion = Physics2D.ClosestPoint(transform.position, colliders[0]) +
                 Vector2.down * heigthforDownToCenter;
-            transform.position = new Vector3(transform.position.x, postion.y, transform.position.z);
+            if (colliders.Length <= 1) {
+                transform.position = new Vector3(transform.position.x, postion.y, transform.position.z);
+                storePostion = transform.position;
+            }
+            else {
+                transform.position = storePostion;
+            }
             velocity = 0;
             isGround = true;
-            myBody.animator.SetTrigger(id_Running);
+           // myBody.animator.SetTrigger(id_Running);
             isJump = false;
+            isFilp = false;
             jumpCount = 0;
+           
+
         }
         else {
             isGround = false;
 
             if (isJump) {
-                myBody.animator.SetTrigger(id_Jump);
+              //  myBody.animator.SetTrigger(id_Jump);
 
             }
 
         }
 
-        //if (Input.GetMouseButtonDown(0) && isGround && Input.mousePosition.x < Screen.width / 2f) {
-        //    velocity = MathF.Sqrt(jumpHeight * -2 * (Physics2D.gravity.y * GravityScale));
-        //    myBody.animator.SetTrigger(id_Jump);
-        //    myBody.JumpRotation(isTopPostion);
-        //    isJump = true;
-        //}
-
-        if (Input.GetMouseButtonDown(0) && isGround) {
+        if (Input.GetMouseButtonDown(0) && isGround && Input.mousePosition.x > Screen.width / 2f) {
             velocity = MathF.Sqrt(jumpHeight * -2 * (Physics2D.gravity.y * GravityScale));
             myBody.animator.SetTrigger(id_Jump);
             myBody.JumpRotation(isTopPostion);
             isJump = true;
-            jumpCount += 1;
+            AudioManager.instance.PlayJumpSFX();
         }
-        else if (Input.GetMouseButtonDown(0) && jumpCount == 1) {
-            jumpCount += 1;
+
+        if (Input.GetMouseButtonDown(0) && !isFilp && Input.mousePosition.x < Screen.width / 2f) {
+            AudioManager.instance.PlayPathChangeSFX();
             MotionInput();
-          
+            isFilp = true;
         }
+
+        //if (Input.GetMouseButtonDown(0) && isGround) {
+        //    velocity = MathF.Sqrt(jumpHeight * -2 * (Physics2D.gravity.y * GravityScale));
+        //    //  myBody.animator.SetTrigger(id_Jump);
+        //    myBody.JumpRotation(isTopPostion);
+        //    isJump = true;
+        //    jumpCount += 1;
+        //}
+        //else if (Input.GetMouseButtonDown(0) && jumpCount == 1) {
+        //    jumpCount += 1;
+        //    MotionInput();
+
+        //}
 
 
 
@@ -182,38 +241,34 @@ public class Playermovement : MonoBehaviour
 
     private void MotionInput() {
 
-      
-
-        //if (Input.GetMouseButtonDown(0)  && Input.mousePosition.x > Screen.width / 2f) {
-
-
+     
         StopAllCoroutines();    
-
-
 
         if (!isTopPostion) {
 
-                Quaternion target = Quaternion.Euler(new Vector3(180, 0, 0));
-             
+               
+         
                 velocity = 0;
                 transform_Ground.localPosition = new Vector3(-1, -1, 0);
-                transform.rotation = target;
+            
+                transform.rotation = Quaternion.Euler(new Vector3(180, 0, 0));
               
-                myBody.RotateBody(target);
+                myBody.RotateBody(Quaternion.Euler(new Vector3(0, 0,180)), true);
 
                 isTopPostion = true;
             }
         else {
 
 
-             Quaternion target = Quaternion.Euler(new Vector3(0, 0, 0));
-                transform_Ground.localPosition = new Vector3(1, -1, 0);
-                transform.rotation = target;
-              
+             Quaternion target = Quaternion.Euler(new Vector3(0, 0, 360));
+           
+            transform_Ground.localPosition = new Vector3(1, -1, 0);
+                transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
 
-                //StartCoroutine(MotionAnimation(Vector3.zero,target));
+            
+            //StartCoroutine(MotionAnimation(Vector3.zero,target));
 
-                myBody.RotateBody(target);
+            myBody.RotateBody(target,false);
                 velocity = 0;
                 isTopPostion = false;
               

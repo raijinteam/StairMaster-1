@@ -9,54 +9,79 @@ public class GameManager : MonoBehaviour
 {
    
     public static GameManager instance;
+    [Header("PlayerData")]
+    public GameObject player;
+    [SerializeField] private GameObject prefab_Player;
     public bool isplayerLive;
+
+
+    [Header("GameData")]
     public float flt_RoadSpeed;
-    [SerializeField] private GameObject player;
-    [SerializeField] private TextMeshProUGUI txt_ScoreTxt;
-    [SerializeField] private int score;
+    public float flt_StepAngle = 36.5f;
+
+    [Header("ScoreData")]
+    public int score;
     [SerializeField] private float scoreIncresedTime;
     [SerializeField] private float ThisWaveIncresedScore;
-    [SerializeField] private Camera camera;
-    [SerializeField] private Color startColor;
-    [SerializeField] private Color endColor;
-    [SerializeField] private float flt_AnimationTime;
-    public int currentLevelIndex;
+
    
+    [Header("LevelData")]
+    public int currentLevelIndex;
     private float flt_CurrentTime;
+
+   
+
     private float flt_EveryLevelChangeTime = 5;
     private float flt_ThisTimeLevelChange = 0;
-    public float flt_StepAngle = 36.5f;
+
+    [Header("CoinData")]
+    public int GameCollectedCoin;
+   
     private void Awake() {
         instance = this;
     }
+
     private void Start() {
+
         UiManager.instance.UiHomeScreen.gameObject.SetActive(true);
-    }
-
-    public  void StartGame() {
-        currentLevelIndex = 1;
-        flt_CurrentTime = 0;
-        flt_ThisTimeLevelChange = flt_EveryLevelChangeTime;
-        Instantiate(player, player.transform.position, player.transform.rotation);
-        CameraVFx();
-        isplayerLive = true;
-    }
-
-    private void CameraVFx() {
-        camera.backgroundColor = startColor;
-        camera.DOColor(endColor, flt_AnimationTime).SetEase(Ease.Linear).SetLoops(-1,LoopType.Yoyo);
+        UiManager.instance.CommanScreeen.gameObject.SetActive(true);
+        UiManager.instance.CommanScreeen.SetCoinValue(DataManager.instance.coin);
     }
 
     private void Update() {
         if (isplayerLive) {
             LevelHandling();
         }
-      
+
     }
+    public void IncresedGameCoin() {
+        GameCollectedCoin += 1;
+        DataManager.instance.SetCoin(1);
+
+
+    }
+
+
+   
+    public void SpawnProcedure() {
+        GameObject curent = Instantiate(prefab_Player, prefab_Player.transform.position,
+            prefab_Player.transform.rotation);
+        player = curent;
+        currentLevelIndex = 1;
+        flt_CurrentTime = 0;
+        flt_ThisTimeLevelChange = flt_EveryLevelChangeTime;
+        player.GetComponent<Playermovement>().myBody.animator.enabled = true;
+        isplayerLive = true;
+    }
+
+
+   
 
     private void LevelHandling() {
         flt_CurrentTime += Time.deltaTime;
-        txt_ScoreTxt.text = score + " M";
+      
+      
+       
         if (flt_CurrentTime>flt_ThisTimeLevelChange) {
            
                 currentLevelIndex++;
@@ -65,7 +90,9 @@ public class GameManager : MonoBehaviour
         }
         if (flt_CurrentTime>ThisWaveIncresedScore) {
             score++;
-           
+            DataManager.instance.SetBestScore(score);
+            UiManager.instance.uiGameplay.SetScore(score);
+
             if (scoreIncresedTime >= 0.5f) {
                 scoreIncresedTime += - 0.001f;     // findtime to genrate MaxSpeed then calculate velocity  for our distance;
                
@@ -74,5 +101,7 @@ public class GameManager : MonoBehaviour
             ThisWaveIncresedScore += scoreIncresedTime;
         }
     }
+
+   
     
 }
