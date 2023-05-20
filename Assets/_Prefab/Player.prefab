@@ -134,11 +134,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myBody: {fileID: 9202440786589909130, guid: 1a7d891ca6a021f4786a824cb6969331, type: 3}
   all_body:
-  - {fileID: 8931089842974092206, guid: 03a78e106c975ba40b1d19219cf5c838, type: 3}
-  - {fileID: 8657907631631278045, guid: 32058bc8b6eff3d4cbbda0d2179396dc, type: 3}
-  - {fileID: 9202440786589909132, guid: 1a7d891ca6a021f4786a824cb6969331, type: 3}
-  - {fileID: 108725113447930780, guid: 7b5f3b94044575c468ec5df17226a188, type: 3}
-  - {fileID: 7365049636023561881, guid: 8ef5c64d089a4bf40a39279ee4d8495c, type: 3}
+  - {fileID: 4656147145321741670, guid: 98387036bd5c12943ade3af5690f7258, type: 3}
+  - {fileID: 8832918030918173995, guid: abb3986006186fc47a028ea955b069fe, type: 3}
+  - {fileID: 200104533687786200, guid: a82b0f94874bd0845b9213bc15a4722e, type: 3}
+  - {fileID: 1994706841973361595, guid: 9c708f2a7a4a2e54d8ea77281d7e7f86, type: 3}
+  - {fileID: 5934136572566748040, guid: 7e8884084968d24449a31e2ec2270df2, type: 3}
+  - {fileID: 897143518580115195, guid: ec68fc38a42f42245bf69bd8268a5a8a, type: 3}
   isTopPostion: 0
   jumpHeight: 1.5
   GravityScale: 5.5

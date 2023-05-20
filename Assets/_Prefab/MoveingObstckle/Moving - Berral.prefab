@@ -72,6 +72,7 @@ MonoBehaviour:
   flt_Angle: 0
   body: {fileID: 8413682846999984301}
   spriteRenderer: {fileID: 2233812359781478367}
+  flt_RotationSpeed: 100
 --- !u!1 &5525425464348867300
 GameObject:
   m_ObjectHideFlags: 0

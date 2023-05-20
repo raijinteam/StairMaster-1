@@ -25,6 +25,9 @@ public class SpawnObstaclesTwo : MonoBehaviour
        
        GameObject Obst =  Instantiate(obstrackle2[Random.Range(0, obstrackle2.Length)], spawnPostion,
            Quaternion.identity, all_TopPostion[current]);
+
+        Obst.transform.localEulerAngles  = Vector3.zero;
+        Obst.transform.localPosition = Vector3.zero;
     
     }
     public void DownSideEnemySpawn() {

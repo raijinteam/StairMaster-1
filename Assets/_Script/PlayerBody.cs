@@ -10,6 +10,10 @@ public class PlayerBody : MonoBehaviour {
     [SerializeField] private GameObject body;
     [SerializeField] private float flt_JumpRotatineTime;
 
+    //private void Start() {
+    //    animator.enabled = true;
+    //}
+
     private void Update() {
 
         transform.position = target.position;

@@ -25,6 +25,16 @@ public class UiManager : MonoBehaviour
         isPlayerTakeRewive = false;
     }
 
+    private void Update() {
+
+        if (uiGameplay.gameObject.activeSelf) {
+            Debug.Log("active");
+        }
+        else {
+            Debug.Log("not active");
+        }
+    }
+
     public void SetUiGameOverScreen() {
 
         GameManager.instance.isplayerLive = false;

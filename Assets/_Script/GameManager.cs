@@ -65,12 +65,12 @@ public class GameManager : MonoBehaviour
    
     public void SpawnProcedure() {
         GameObject curent = Instantiate(prefab_Player, prefab_Player.transform.position,
-            prefab_Player.transform.rotation);
+                               prefab_Player.transform.rotation);
         player = curent;
         currentLevelIndex = 1;
         flt_CurrentTime = 0;
         flt_ThisTimeLevelChange = flt_EveryLevelChangeTime;
-        player.GetComponent<Playermovement>().myBody.animator.enabled = true;
+        //curent.GetComponent<Playermovement>().myBody.animator.enabled = true;
         isplayerLive = true;
     }
 
@@ -90,7 +90,10 @@ public class GameManager : MonoBehaviour
         }
         if (flt_CurrentTime>ThisWaveIncresedScore) {
             score++;
-            DataManager.instance.SetBestScore(score);
+            if (score>DataManager.instance.bestScore) {
+                DataManager.instance.SetBestScore(score);
+            }
+            
             UiManager.instance.uiGameplay.SetScore(score);
 
             if (scoreIncresedTime >= 0.5f) {

@@ -39,6 +39,7 @@ public class Playermovement : MonoBehaviour
 
         myBody = current.GetComponent<PlayerBody>();
         myBody.target = transform;
+        GameManager.instance.isplayerLive = true;
       
     }
 
@@ -124,30 +125,30 @@ public class Playermovement : MonoBehaviour
 
         }
 
-        if (Input.GetMouseButtonDown(0) && isGround && Input.mousePosition.x > Screen.width / 2f) {
-            velocity = MathF.Sqrt(jumpHeight * -2 * (Physics2D.gravity.y * GravityScale));
-            myBody.JumpRotation(isTopPostion);
-            isJump = true;
-            AudioManager.instance.PlayJumpSFX();
-        }
-        if (Input.GetMouseButtonDown(0) && !isFilp && Input.mousePosition.x < Screen.width / 2f) {
-            AudioManager.instance.PlayPathChangeSFX();
-            isFilp = true;
-            MotionInput();
-        }
-
-        //if (Input.GetMouseButtonDown(0) && isGround) {
+        //if (Input.GetMouseButtonDown(0) && isGround && Input.mousePosition.x > Screen.width / 2f) {
         //    velocity = MathF.Sqrt(jumpHeight * -2 * (Physics2D.gravity.y * GravityScale));
         //    myBody.JumpRotation(isTopPostion);
         //    isJump = true;
-        //    jumpCount += 1;
-        //AudioManager.instance.PlayPathChangeSFX();
+        //    AudioManager.instance.PlayJumpSFX();
         //}
-        //else if (Input.GetMouseButtonDown(0) && jumpCount == 1) {
-        //    jumpCount = 2;
+        //if (Input.GetMouseButtonDown(0) && !isFilp && Input.mousePosition.x < Screen.width / 2f) {
+        //    AudioManager.instance.PlayPathChangeSFX();
+        //    isFilp = true;
         //    MotionInput();
-
         //}
+
+        if (Input.GetMouseButtonDown(0) && isGround) {
+            velocity = MathF.Sqrt(jumpHeight * -2 * (Physics2D.gravity.y * GravityScale));
+            myBody.JumpRotation(isTopPostion);
+            isJump = true;
+            jumpCount += 1;
+            AudioManager.instance.PlayPathChangeSFX();
+        }
+        else if (Input.GetMouseButtonDown(0) && jumpCount == 1) {
+            jumpCount = 2;
+            MotionInput();
+
+        }
 
 
 
@@ -205,32 +206,33 @@ public class Playermovement : MonoBehaviour
 
         }
 
-        if (Input.GetMouseButtonDown(0) && isGround && Input.mousePosition.x > Screen.width / 2f) {
-            velocity = MathF.Sqrt(jumpHeight * -2 * (Physics2D.gravity.y * GravityScale));
-            myBody.animator.SetTrigger(id_Jump);
-            myBody.JumpRotation(isTopPostion);
-            isJump = true;
-            AudioManager.instance.PlayJumpSFX();
-        }
-
-        if (Input.GetMouseButtonDown(0) && !isFilp && Input.mousePosition.x < Screen.width / 2f) {
-            AudioManager.instance.PlayPathChangeSFX();
-            MotionInput();
-            isFilp = true;
-        }
-
-        //if (Input.GetMouseButtonDown(0) && isGround) {
+        //if (Input.GetMouseButtonDown(0) && isGround && Input.mousePosition.x > Screen.width / 2f) {
         //    velocity = MathF.Sqrt(jumpHeight * -2 * (Physics2D.gravity.y * GravityScale));
-        //    //  myBody.animator.SetTrigger(id_Jump);
+        //    myBody.animator.SetTrigger(id_Jump);
         //    myBody.JumpRotation(isTopPostion);
         //    isJump = true;
-        //    jumpCount += 1;
+        //    AudioManager.instance.PlayJumpSFX();
         //}
-        //else if (Input.GetMouseButtonDown(0) && jumpCount == 1) {
-        //    jumpCount += 1;
-        //    MotionInput();
 
+        //if (Input.GetMouseButtonDown(0) && !isFilp && Input.mousePosition.x < Screen.width / 2f) {
+        //    AudioManager.instance.PlayPathChangeSFX();
+        //    MotionInput();
+        //    isFilp = true;
         //}
+
+        if (Input.GetMouseButtonDown(0) && isGround) {
+            velocity = MathF.Sqrt(jumpHeight * -2 * (Physics2D.gravity.y * GravityScale));
+            //  myBody.animator.SetTrigger(id_Jump);
+            myBody.JumpRotation(isTopPostion);
+            isJump = true;
+            jumpCount += 1;
+        }
+        else if (Input.GetMouseButtonDown(0) && jumpCount == 1) {
+            jumpCount += 1;
+            MotionInput();
+
+        }
+        
 
 
 

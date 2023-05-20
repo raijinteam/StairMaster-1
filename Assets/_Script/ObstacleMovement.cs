@@ -10,8 +10,14 @@ public class ObstacleMovement : MonoBehaviour {
     [SerializeField] private float flt_Angle;
     [SerializeField] private Transform body;
     [SerializeField] private SpriteRenderer spriteRenderer;
+    [SerializeField] private float flt_RotationSpeed;
 
 
+    public void SetRotationSpeed(bool IsTop) {
+        if (IsTop) {
+            flt_RotationSpeed = -flt_RotationSpeed;
+        }
+    }
     private void Start() {
 
         //spriteRenderer.sprite = all_Sprite[Random.Range(0, all_Sprite.Length)];
@@ -24,7 +30,7 @@ public class ObstacleMovement : MonoBehaviour {
             return;
         }
         EnemyMotion();
-        body.transform.Rotate(0, 0, 1.5f);
+        body.transform.Rotate(0, 0, flt_RotationSpeed*Time.deltaTime);
     }
 
     private void EnemyMotion() {

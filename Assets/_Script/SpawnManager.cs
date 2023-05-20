@@ -66,30 +66,46 @@ public class SpawnManager : MonoBehaviour
         if (i< persantageOfSpwnSmallEnemy) {
             InstantiateEnemy(0);
         }
+        else {
+            InstantiateEnemy(1);
+        }
       
        
             
     }
     private void InstantiateEnemy(int i) {
         Vector3 spawnPostion;
-      
-             spawnPostion = GetSpawnPostion(MinPostion,maxPostion);
-        Instantiate(enemy[i], spawnPostion, enemy[i].transform.rotation);
+        bool isTop;
+        int index = Random.Range(0, 100);
+        if (index < 50) {
+            isTop = true;
+        
+        }
+        else {
+            isTop = false;
+           
+        }
+        spawnPostion = GetSpawnPostion(isTop);
+
+
+      GameObject current =   Instantiate(enemy[i], spawnPostion, enemy[i].transform.rotation);
+        current.GetComponent<ObstacleMovement>().SetRotationSpeed(isTop);
 
 
 
 
     }
 
-    private Vector3 GetSpawnPostion(float min,float max) {
+    private Vector3 GetSpawnPostion(bool isTop) {
         Vector3 spawnPostion;
-        int index = Random.Range(0, 100);
-        if (index < 50) {
-            spawnPostion = new Vector3(flt_PostionOfX, min, 0);
+
+        if (isTop) {
+            spawnPostion = new Vector3(flt_PostionOfX, maxPostion, 0);
         }
         else {
-            spawnPostion = new Vector3(flt_PostionOfX, max, 0);
+            spawnPostion = new Vector3(flt_PostionOfX, MinPostion, 0);
         }
+       
         return spawnPostion;
     }
 }

@@ -1399,7 +1399,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7088278270288893411
 Transform:
   m_ObjectHideFlags: 0
@@ -1514,7 +1514,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7824365693093306568
 Transform:
   m_ObjectHideFlags: 0
@@ -1638,6 +1638,11 @@ MonoBehaviour:
   obstrackle2:
   - {fileID: 7420690300770538459, guid: ed8556b1c822ab541a9c3bbb25712b4f, type: 3}
   - {fileID: 8077245000918465901, guid: d5e905e690ef9fe44a426c4f1b3018c3, type: 3}
+  - {fileID: 7419410887970631862, guid: 14230fcd1677e334e82e08d1f5aebf92, type: 3}
+  - {fileID: 451340959563121575, guid: 7e610725b2027c24e919e2b9099ec5e5, type: 3}
+  - {fileID: 7764967014502775271, guid: 6a65c2aaef628964d84cbbc0e0b6f185, type: 3}
+  - {fileID: 6850720548441996542, guid: 56955b9c9b644aa489e93f81a48ff78e, type: 3}
+  - {fileID: 6239438353840368977, guid: 914ac594f432f1b4baaea1b9ea66d351, type: 3}
   all_TopPostion:
   - {fileID: 1766506695087285553}
   - {fileID: 3235968429574205413}

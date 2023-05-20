@@ -32,6 +32,7 @@ public class UiHomeScreen : MonoBehaviour
         Sequence seq = DOTween.Sequence();
         seq.AppendCallback(EndUiHomeScreenAnimation).AppendInterval(flt_EndAnimationTime).
             AppendCallback(PlayBtnProcedure);
+   
 
     }
     public void OnClick_LeaderBoardButnClick() {
@@ -124,9 +125,14 @@ public class UiHomeScreen : MonoBehaviour
  
 
     private void PlayBtnProcedure() {
+
+       
         GameManager.instance.SpawnProcedure();
-        this.gameObject.SetActive(false);
         UiManager.instance.uiGameplay.gameObject.SetActive(true);
+
+        this.gameObject.SetActive(false);
+       
+       
     }
 
     private void EndUiHomeScreenAnimation() {

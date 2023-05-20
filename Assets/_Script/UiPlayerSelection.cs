@@ -145,6 +145,8 @@ public class UiPlayerSelection : MonoBehaviour
 
             // If PlayerUnlocked
 
+
+            Debug.Log("Unlocked : " + GivenIndex);
             all_Lock[GivenIndex].gameObject.SetActive(false);
             all_Player[GivenIndex].gameObject.SetActive(true);
             obj_Buy.gameObject.SetActive(false);
@@ -157,8 +159,8 @@ public class UiPlayerSelection : MonoBehaviour
             }
         }
         else {
-            // if Playeris Not Locked
-
+            // if Playeris  Locked
+            Debug.Log("Locked : " + GivenIndex);
             all_Lock[GivenIndex].gameObject.SetActive(true);
             all_Player[GivenIndex].gameObject.SetActive(true);
             obj_Buy.gameObject.SetActive(true);
@@ -170,10 +172,7 @@ public class UiPlayerSelection : MonoBehaviour
         }
     }
 
-   
-
-    
-
+  
     private void RightBtnProcedure() {
         curentIndex++;
         if (curentIndex == all_Player.Length) {

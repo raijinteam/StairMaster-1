@@ -128,9 +128,10 @@ public class DataManager : MonoBehaviour
         UiManager.instance.CommanScreeen.SetCoinValue(coin);
     }
     public void SetBestScore(int CurrentScore) {
-        if (CurrentScore>PlayerPrefs.GetInt(userKey.key_BestScore)) {
-            PlayerPrefs.SetInt(userKey.key_BestScore, CurrentScore);
-        }
+
+        bestScore = CurrentScore;
+        PlayerPrefs.SetInt(userKey.key_BestScore, CurrentScore);
+      
     }
     public void SetMusic(bool MusicValue) {
         isMusic = MusicValue;
